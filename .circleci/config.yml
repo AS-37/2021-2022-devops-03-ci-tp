@@ -29,5 +29,4 @@ workflows:
         - run:
         - restore_cache:
             key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
-            paths:
-            - node_modules     
+            

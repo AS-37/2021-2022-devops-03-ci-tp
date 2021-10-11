@@ -28,6 +28,6 @@ workflows:
         - checkout # check out the code in the project directory
         - run:
         - restore_cache:
-              key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
-              paths:
-              - node_modules     
+            key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
+            paths:
+            - node_modules     

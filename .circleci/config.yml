@@ -9,6 +9,6 @@ jobs:
     steps:
     - restore_cache:
          keys:
-           - npm-v1-dependencies-{{ checksum "yarn.lock" }}
+           - m2-npm-v1-dependencies-{{ checksum "yarn.lock" }}
       - checkout # check out the code in the project directory
       - run: yarn install

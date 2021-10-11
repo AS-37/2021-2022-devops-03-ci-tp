@@ -16,7 +16,7 @@ workflows:
         - run: yarn install
         - save_cache:
             key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
-          paths:
+            paths:
             - node_modules #ça marche jusqu'ici pour l'instant
     test:
       docker:
@@ -29,5 +29,5 @@ workflows:
         - run:
           - restore_cache:
               key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
-            paths:
+              paths:
               - node_modules     

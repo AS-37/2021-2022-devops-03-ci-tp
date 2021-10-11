@@ -1,12 +1,30 @@
-version: 2.1
-jobs:
-  build:
-    docker:
-      - image: cimg/node:14.15.0 # the primary container, where your job's commands are run
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-    steps:
-      - checkout # check out the code in the project directory
-      - run: yarn install
-      
+workflows:
+  version: 2.1
+  jobs:
+    build:
+      docker:
+        - image: cimg/node:14.15.0 # the primary container, where your job's commands are run
+          auth:
+            username: mydockerhub-user
+            password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      steps:
+        - checkout # check out the code in the project directory
+        - run: yarn install
+          - save_cache:
+            key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
+            paths:
+              - node_modules #ça marche jusqu'ici pour l'instant
+  jobsbis:
+    build:
+      docker:
+        - image: cimg/node:14.15.0 # the primary container, where your job's commands are run
+          auth:
+            username: mydockerhub-user
+            password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      steps:
+        - checkout # check out the code in the project directory
+        - run:
+          - restore_cache:
+            key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
+            paths:
+              - node_modules #ça marche jusqu'ici pour l'instant        

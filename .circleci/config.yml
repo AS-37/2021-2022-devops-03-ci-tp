@@ -15,7 +15,7 @@ workflows:
         - checkout # check out the code in the project directory
         - run: yarn install
         - save_cache:
-          key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
+            key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
           paths:
             - node_modules #ça marche jusqu'ici pour l'instant
     test:
@@ -28,6 +28,6 @@ workflows:
         - checkout # check out the code in the project directory
         - run:
           - restore_cache:
-            key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
+              key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
             paths:
-              - node_modules #ça marche jusqu'ici pour l'instant        
+              - node_modules     

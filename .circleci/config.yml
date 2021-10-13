@@ -17,6 +17,8 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - run: yarn install
+      - run: sudo apt-get update
+      - run: sudo apt-get install postgresql-client-9.6
       - save_cache:
           key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
           paths:
@@ -60,9 +62,9 @@ jobs:
           username: xaela37
           password: $DOCKERHUB_PASSWORD
         environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: pguser
+          POSTGRES_DB: pgdb
+          POSTGRES_PASSWORD: pass
     steps:
       - checkout
       - restore_cache:
@@ -73,4 +75,4 @@ jobs:
           name: "yarn test"
           command: yarn test:e2e
           environment:
-            DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres                  
+            DATABASE_URL: postgres://pguser:pass@localhost:5432/pgdb                

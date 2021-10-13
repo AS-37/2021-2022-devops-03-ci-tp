@@ -79,7 +79,7 @@ jobs:
             DATABASE_URL: postgres://pguser:pass@localhost:5432/pgdb        
   documentation:
     docker:
-      - image: cimg/node:16.10.0
+      - image: cimg/node:14.15.0
         auth:
           username: xaela37
           password: $DOCKERHUB_PASSWORD

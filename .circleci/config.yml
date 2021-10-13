@@ -77,7 +77,7 @@ jobs:
           command: yarn test:e2e
           environment:
             DATABASE_URL: postgres://pguser:pass@localhost:5432/pgdb        
-   documentation_artifact:
+   documentation:
     docker:
       - image: cimg/node:16.10.0
         auth:

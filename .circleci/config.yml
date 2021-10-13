@@ -1,13 +1,14 @@
 workflows:
   my_workflow:
     jobs:
-      - build
+      - install
       - test
       - lint
+      - end_to_end
 
 version: 2.1
 jobs:
-  build:
+  install:
     docker:
       - image: cimg/node:14.15.0 # the primary container, where your job's commands are run
         auth:
@@ -47,4 +48,29 @@ jobs:
             yarn format:check
       - run:
           name: "yarn test"
-          command: yarn test          
+          command: yarn test
+  end_to_end_tests:
+    docker:
+      - image: cimg/node:14.15.0
+        auth:
+          username: xaela37
+          password: $DOCKERHUB_PASSWORD
+      - image: circleci/postgres:9.6.2-alpine
+        auth:
+          username: xaela37
+          password: $DOCKERHUB_PASSWORD
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: postgres
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - npm-v2-dependencies-{{ checksum "yarn.lock" }}
+            - npm-v2-dependencies-
+      - run:
+          name: "yarn test"
+          command: yarn test:e2e
+          environment:
+            DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres                  

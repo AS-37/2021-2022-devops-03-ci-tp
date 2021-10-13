@@ -71,6 +71,6 @@ jobs:
             - npm-v2-dependencies-
       - run:
           name: "yarn test"
-          command: yarn test:e2e
+          command: yarn test
           environment:
             DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres                  

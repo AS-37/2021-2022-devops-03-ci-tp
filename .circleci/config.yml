@@ -5,6 +5,10 @@ workflows:
       - test
       - lint
       - end_to_end
+      - documentation:
+          requires:
+          - lint
+          - end_to_end
 
 version: 2.1
 jobs:
@@ -72,4 +76,22 @@ jobs:
           name: "yarn test"
           command: yarn test:e2e
           environment:
-            DATABASE_URL: postgres://pguser:pass@localhost:5432/pgdb                
+            DATABASE_URL: postgres://pguser:pass@localhost:5432/pgdb        
+   documentation_artifact:
+    docker:
+      - image: cimg/node:16.10.0
+        auth:
+          username: xaela37
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - npm-v1-dependencies-{{ checksum "yarn.lock" }}
+      - run:
+          name: "yarn doc build"
+          command: |
+            yarn doc:build
+            yarn add save-artifact-to-github
+      - store_artifacts:
+          path: docs        
